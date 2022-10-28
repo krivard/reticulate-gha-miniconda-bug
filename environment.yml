@@ -1,0 +1,22 @@
+name: www-main
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - gdal
+  - python=3.9.1
+  - pip
+  - r-base=3.6.3
+  - glib
+  - mscorefonts
+  - r-reticulate
+  - r-blogdown
+  - pandoc
+  - fiona
+  - geopandas
+  - pandas
+  - numpy
+  - pillow
+  - pyproj
+  - matplotlib
+  - udunits2

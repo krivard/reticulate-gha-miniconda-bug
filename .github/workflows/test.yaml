@@ -1,0 +1,41 @@
+name: test
+
+on:
+  push:
+    paths: # run when workflow file changes
+      - ".github/workflows/test.yaml"
+  workflow_dispatch:
+
+jobs:
+  blog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 3
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.9
+          mamba-version: "*"
+          channels: conda-forge,defaults
+          channel-priority: true
+          activate-environment: reticulate-gha-miniconda-bug
+          environment-file: environment.yml
+          auto-activate-base: false
+          use-only-tar-bz2: true
+      - name: Conda info
+        shell: bash -l {0}
+        run: |
+          conda info
+          conda list
+      - name: Peek at history file
+        shell: bash -l {0}
+        run: |
+          which python
+          which conda
+          find /usr/share/miniconda/envs/reticulate-gha-miniconda-bug -name history -exec grep -n "cmd" {} +
+      - name: Reticulate
+        shell: bash -l {0}
+        run: |
+          Rscript -e 'library(reticulate); py_config(); os <- import("os"); os$listdir("."); '
+
